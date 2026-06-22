@@ -1,45 +1,45 @@
-# Content-First Markmap Structure Guide
+# 内容优先 Markmap 结构指南
 
-Use this reference when building a non-trivial Markmap from a repository, document, or concept.
+处理复杂仓库、长文档或抽象概念时使用这份参考。
 
-## Principle
+## 原则
 
-The mind map is about the source material. It should help a reader move from the whole system to local details.
+思维导图的核心是材料本身。导图应帮助读者从整体理解到局部细节。
 
-- Start with the subject's real purpose.
-- Expand into real concepts, modules, workflows, APIs, files, decisions, or claims.
-- Avoid category headings that only describe the reader experience, such as "overview", "architecture", "main modules", "core concepts", "project positioning", or "use cases".
-- Use analogies only as optional memory hooks after the content label.
-- Keep leaf-detail groups short enough to scan.
+- 从对象的真实目的开始。
+- 展开真实概念、模块、流程、API、文件、决策或主张。
+- 避免只描述阅读体验的分类标题，例如“概览”“架构”“主要模块”“核心概念”“项目定位”“使用场景”。
+- 类比只作为可选记忆钩子，放在内容标签之后。
+- 叶子明细组要短，方便一眼读完。
 
-## Shape Contract
+## 结构约定
 
-- Exactly one root H1.
-- Any number of meaningful main branches is allowed.
-- A non-leaf node may have fewer than 5 or more than 7 children when the source structure requires it.
-- A node whose children are all leaves must have at most 7 children.
-- When a parent has many leaf details, prefer 5-7 leaves. If there are more than 7 details, create meaningful subnodes based on the source.
-- Every non-root node should contain substantive content, not a generic category label.
+- 只能有一个 H1 根标题。
+- 主分支数量不固定，按真实内容来。
+- 非叶子节点可以少于 5 个子节点，也可以多于 7 个子节点，只要材料结构确实需要。
+- 如果一个节点的所有子节点都是叶子节点，则最多 7 项。
+- 如果某个父节点下细节很多，优先保留 5-7 个叶子项；超过 7 项时，用材料中的真实子主题继续分组。
+- 每个非根节点都应有实质内容，不能只是空泛分类词。
 
-## Whole-To-Part Order
+## 先整体后局部
 
-For codebases, a useful default:
+代码仓库的默认顺序：
 
-1. Root: project name and one-line purpose.
-2. Main layer: real system concepts or package/workflow areas from the repository.
-3. Second layer: responsibilities, APIs, commands, files, or data structures under each area.
-4. Third layer: only when detail materially helps the reader understand or remember the system.
+1. 根节点：项目名和一句话目的。
+2. 主层级：仓库里的真实系统概念、包、工作流或模块区域。
+3. 第二层：每个区域下的职责、API、命令、文件或数据结构。
+4. 第三层：只有当细节能显著帮助理解或记忆时再展开。
 
-For articles or documents:
+文章或文档的默认顺序：
 
-1. Root: the thesis or title.
-2. Main layer: actual arguments, stages, or sections.
-3. Second layer: evidence, examples, mechanisms, or implications.
-4. Leaf layer: only the most important details.
+1. 根节点：标题或中心论点。
+2. 主层级：真实论点、阶段或章节。
+3. 第二层：证据、例子、机制或影响。
+4. 叶子层：只保留最关键的细节。
 
-## Good And Weak Patterns
+## 好例子与弱例子
 
-Good:
+好例子：
 
 ```markdown
 # Hindsight 记忆系统
@@ -52,7 +52,7 @@ Good:
 - 后台维护：触发 consolidation 与 graph maintenance。
 ```
 
-Weak:
+弱例子：
 
 ```markdown
 # Hindsight 记忆系统
@@ -63,25 +63,23 @@ Weak:
 - 使用场景：介绍能做什么。
 ```
 
-The weak version is easy to read but loses the actual content. Rewrite category nodes into source terms.
+弱例子看起来好读，但丢掉了真实内容。应把分类词改成材料里的具体术语。
 
-## Repo Mapping Heuristic
+## 仓库映射方法
 
-When mapping a repository:
+- 从 `README` 里的用户可见目标开始。
+- 用包配置、文档、测试和顶层目录决定主分支。
+- 优先写“这个区域做什么”，不要做文件清单。
+- 只有在帮助导航时才写具体包名或路径。
+- 节点名优先使用仓库里的真实词：包名、操作名、API、存储对象、命令、文档概念或已验证行为。
+- 保留不确定性：如果某个目录只看过入口，写成“入口”或“表层”，不要声称已理解完整实现。
 
-- Start from the user-facing purpose in `README`.
-- Use package manifests, docs, tests, and top-level folders to decide main branches.
-- Prefer "what this area does" over file-by-file inventory.
-- Mention exact packages or directories only when they help navigation.
-- Name nodes with actual repository terms: package names, operations, APIs, storage objects, command names, docs concepts, or verified behaviors.
-- Preserve uncertainty: if a directory is present but not inspected deeply, label it as an entry point or surface rather than claiming implementation behavior.
+## 修复规则
 
-## Repair Rules
+校验失败时按以下方式修：
 
-If validation reports issues:
-
-- Too many leaf children: group details under source-based subtopics.
-- Generic category node: replace it with the actual content concept.
-- Thin branch: merge it into a sibling sentence unless it has enough source-backed detail to expand.
-- Inconsistent depth: shallow is acceptable when the source does not justify deeper structure.
-- Missing root: add one H1 with the subject and purpose.
+- 叶子节点过多：按材料里的真实子主题分组。
+- 空泛分类节点：替换成具体内容概念。
+- 分支过薄：没有足够证据展开时，并入相邻节点说明。
+- 深度不一致：材料不支持深挖时，浅层结构可以接受。
+- 缺少根节点：添加一个说明对象和目的的 H1。

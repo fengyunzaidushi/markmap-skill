@@ -1,64 +1,64 @@
 ---
 name: markmap-analogy-mindmap
-description: Generate content-first Markmap mind maps from projects, documents, codebases, or concepts. Use when Codex needs to create a Markdown/HTML mind map that explains source material from whole to parts, keeps the real content as the structure, and limits leaf-detail groups to about 5-7 items for readability.
+description: 生成以内容为主的 Markmap 思维导图，用于项目、文档、代码库或概念梳理。Use when Codex needs to create Markdown/HTML mind maps that explain source material from whole to parts, keep real content as the structure, and limit leaf-detail groups to about 5-7 items for readability.
 ---
 
-# Markmap Analogy Mindmap
+# 内容优先 Markmap 思维导图
 
-Create a content-first Markmap-ready Markdown outline, validate its shape, and render it to HTML when requested or useful.
+把项目、文档、代码库或概念整理成可以用 Markmap 渲染的 Markdown，并在需要时校验结构、生成 HTML。
 
-## Core Rules
+## 核心规则
 
-- Structure from whole to parts: root purpose -> major real concepts -> workflows/modules/details.
-- Use the source material itself as the map structure. Do not invent broad category headings just to make content easier for beginners.
-- Remove category-only labels such as "项目定位", "运行机制", "开发版图", "核心概念", "主要模块", "使用场景", "overview", or "architecture" unless they are part of the source text.
-- Do not require every level to have 5-7 branches. Let each level follow the real content.
-- Keep leaf-detail groups readable: when a parent has only leaf children, use at most 7 children, preferably 5-7 when there are many details.
-- If a topic has more than 7 leaf details, group them under meaningful source-based subtopics rather than listing everything flat.
-- Analogies are optional. Use them only when they genuinely help memory, and keep them after the content label. Never let an analogy become the node's main point.
-- Do not fake certainty about a project. Inspect README, docs, package files, tests, source directories, and local scripts before summarizing a repository.
-- Keep generated Markdown concise enough for a mind map. Use short content labels and one evidence-grounded sentence where useful.
+- 先整体后局部：根主题说明对象和目的，再展开真实主概念、流程、模块和细节。
+- 用材料本身组织导图。不要为了照顾小白阅读而发明空泛分类标题。
+- 去掉只起分类作用的标题，例如“项目定位”“运行机制”“开发版图”“核心概念”“主要模块”“使用场景”等，除非这些词本来就是原文的一部分。
+- 不要求每一层都是 5-7 个分支。层级和分支数量应服从真实内容结构。
+- 只控制叶子明细组的可读性：当一个父节点下面全是叶子节点时，最多 7 项；如果细节很多，优先控制在 5-7 项。
+- 如果某个主题超过 7 个叶子细节，按材料里的真实子主题继续分组，不要平铺所有条目。
+- 类比是可选的。只有确实帮助记忆时才使用，并放在内容标签之后；不能让类比变成节点主体。
+- 不要编造确定性。总结仓库前先看 README、文档、包配置、测试、源码目录和本地脚本。
+- 保持导图简洁。节点用短内容标签，必要时补一句有依据的说明。
 
-Read `references/analogy-structure.md` when designing a non-trivial map or when the source material is a repo/codebase.
+处理复杂仓库或长文档时，先读 `references/analogy-structure.md`。
 
-## Workflow
+## 工作流程
 
-1. Inspect the source material first.
-   - For a repo, start with `README`, `AGENTS.md`/`CLAUDE.md`, package manifests, docs, and top-level directories.
-   - For a document, identify the main thesis, sections, repeated concepts, and terms that need memory hooks.
-2. Draft from global to local.
-   - Use one H1 root that states the subject.
-   - Use `##` for the main real content areas, not reader-friendly category buckets.
-   - Start each branch with the actual concept, subsystem, claim, workflow, file path, API, or responsibility from the source.
-   - Expand only where detail helps understanding. Do not force a fixed branch count at each level.
-   - Keep leaf lists short. If a node has more than 7 leaf children, regroup the details into source-based subnodes.
-3. Validate the Markdown with the bundled script:
+1. 先检查材料。
+   - 仓库：先看 `README`、`AGENTS.md`/`CLAUDE.md`、包配置、文档和顶层目录。
+   - 文档：先找主题、主张、章节、重复概念和需要记忆的术语。
+2. 从整体到局部起草 Markdown。
+   - 使用一个 H1 根标题说明对象。
+   - 使用 `##` 展开真实内容主干，不使用“给读者看的分类桶”。
+   - 每个节点优先写材料中的真实概念、系统、流程、文件路径、API、主张或职责。
+   - 只在细节能帮助理解时继续展开，不强行凑固定分支数。
+   - 叶子列表保持短。如果一个节点超过 7 个叶子节点，按真实子主题重新分组。
+3. 用脚本校验 Markdown：
 
 ```bash
 python3 ~/.codex/skills/markmap-analogy-mindmap/scripts/validate_and_render.py input.md --validate-only
 ```
 
-4. Render to Markmap HTML when an output artifact is expected:
+4. 需要交付 HTML 时，渲染 Markmap：
 
 ```bash
 python3 ~/.codex/skills/markmap-analogy-mindmap/scripts/validate_and_render.py input.md -o output.html
 ```
 
-5. If validation fails, revise the outline. Do not bypass category-only or oversized leaf-list checks unless the user explicitly asks for a non-standard map.
+5. 如果校验失败，先修导图结构。除非用户明确要求非标准导图，否则不要绕过“空泛分类”和“叶子组过长”检查。
 
-## Markmap Rendering
+## Markmap 渲染
 
-The script tries these renderers in order:
+脚本会按顺序尝试：
 
-1. `markmap` on `PATH`
+1. `markmap`
 2. `npx --yes markmap-cli`
-3. a local checkout at `/root/markmap` if it has built CLI dependencies
+3. 本机 `/root/markmap` 里的已构建 CLI
 
-If none are available, leave the validated Markdown as the deliverable and report that HTML rendering was unavailable.
+如果没有可用渲染器，就把已通过校验的 Markdown 作为交付物，并说明 HTML 未生成。
 
-## Output Standards
+## 输出要求
 
-- Return the generated `.md` and `.html` paths when files are created.
-- Mention any source paths inspected and any validation/render command results.
-- Keep source repos read-only unless the user asks to modify them.
-- For Chinese users, write the mind map in Chinese by default.
+- 创建文件后，返回 `.md` 和 `.html` 路径。
+- 说明检查过哪些来源，以及校验/渲染命令结果。
+- 除非用户要求修改源仓库，否则只读源材料。
+- 中文用户默认输出中文导图；只有命令、路径、API、包名、术语必须保留英文时才用英文。

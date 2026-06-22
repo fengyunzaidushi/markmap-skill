@@ -2,8 +2,8 @@
   "groups": [
     {
       "path": "SKILL.md",
-      "title": "Content-First Markmap",
-      "description": "Generate whole-to-part Markmap mind maps that keep source content as the structure and limit leaf-detail groups for readability."
+      "title": "内容优先 Markmap",
+      "description": "生成先整体后局部的 Markmap 思维导图，让源材料本身成为结构，并限制叶子明细组长度以提升可读性。"
     }
   ]
 }

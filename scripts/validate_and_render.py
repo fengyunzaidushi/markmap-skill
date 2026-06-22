@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate content-first Markmap Markdown and optionally render HTML."""
+"""校验内容优先的 Markmap Markdown，并可选择渲染 HTML。"""
 
 from __future__ import annotations
 
@@ -93,7 +93,7 @@ def validate(root: Node) -> list[str]:
     errors: list[str] = []
     visible_roots = root.children
     if len(visible_roots) != 1:
-        errors.append(f"line 0: expected exactly one root heading, found {len(visible_roots)}")
+        errors.append(f"line 0: 需要且只能有一个根标题，当前找到 {len(visible_roots)} 个")
 
     for node in walk(root):
         if node.kind == "root":
@@ -101,14 +101,14 @@ def validate(root: Node) -> list[str]:
         if node.level != 1:
             content_label = node.content_label
             if not node.has_substantive_content_label:
-                errors.append(f"line {node.line}: missing substantive content in '{node.label}'")
+                errors.append(f"line {node.line}: 节点缺少实质内容：'{node.label}'")
             if GENERIC_LABEL_RE.fullmatch(content_label):
                 errors.append(
-                    f"line {node.line}: generic category label; lead with source content in '{node.label}'"
+                    f"line {node.line}: 节点是空泛分类词，请改为材料中的真实内容：'{node.label}'"
                 )
         if node.children and len(node.children) > 7 and all(not child.children for child in node.children):
             errors.append(
-                f"line {node.line}: leaf-detail group has {len(node.children)} children, expected at most 7 in '{node.label}'"
+                f"line {node.line}: 叶子明细组有 {len(node.children)} 项，最多允许 7 项：'{node.label}'"
             )
 
     return errors
@@ -129,7 +129,7 @@ def render_markmap(input_path: Path, output_path: Path) -> tuple[bool, str]:
         commands.append(["node", str(local_cli), "--no-open", "--offline", "-o", str(output_path), str(input_path)])
 
     if not commands:
-        return False, "No markmap renderer found on PATH, npx unavailable, and /root/markmap is not built."
+        return False, "未找到可用 Markmap 渲染器：PATH 中没有 markmap，npx 不可用，且 /root/markmap 未构建。"
 
     env = os.environ.copy()
     env.setdefault("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "1")
@@ -158,25 +158,25 @@ def render_markmap(input_path: Path, output_path: Path) -> tuple[bool, str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input", type=Path, help="Markdown mind map to validate")
-    parser.add_argument("-o", "--output", type=Path, help="HTML output path")
-    parser.add_argument("--validate-only", action="store_true", help="Only validate structure")
+    parser.add_argument("input", type=Path, help="要校验的 Markdown 思维导图")
+    parser.add_argument("-o", "--output", type=Path, help="HTML 输出路径")
+    parser.add_argument("--validate-only", action="store_true", help="只校验结构，不渲染 HTML")
     args = parser.parse_args()
 
     if not args.input.exists():
-        print(f"Input not found: {args.input}", file=sys.stderr)
+        print(f"找不到输入文件：{args.input}", file=sys.stderr)
         return 2
 
     input_path = args.input.resolve()
     root = parse_markdown(input_path)
     errors = validate(root)
     if errors:
-        print("Validation failed:", file=sys.stderr)
+        print("校验失败：", file=sys.stderr)
         for error in errors:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print(f"Validation passed: {args.input}")
+    print(f"校验通过：{args.input}")
     if args.validate_only:
         return 0
 
@@ -185,7 +185,7 @@ def main() -> int:
     print(message)
     if not ok:
         return 3
-    print(f"HTML written: {output}")
+    print(f"HTML 已写入：{output}")
     return 0
 
 

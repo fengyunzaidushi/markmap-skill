@@ -1,73 +1,73 @@
-# Content-First Markmap Skill
+# 内容优先 Markmap Skill
 
 [![skills.sh](https://skills.sh/b/fengyunzaidushi/markmap-skill)](https://skills.sh/fengyunzaidushi/markmap-skill)
 
-A Codex-compatible agent skill for turning projects, documents, codebases, and concepts into content-first Markmap mind maps.
+这是一个 Codex 可用的 agent skill，用来把项目、文档、代码库或概念整理成内容优先的 Markmap 思维导图。
 
-The skill keeps the source material as the map structure. It works from whole to parts, avoids broad category headings, and keeps leaf-detail groups to at most 7 items so the result stays readable.
+它的重点不是用类别凑结构，而是让材料本身成为导图结构：先整体后局部，避免空泛分类标题，并把同一父节点下的叶子明细控制在最多 7 项，保证阅读时不散。
 
-## Install
+## 安装
 
-Install this skill for Codex:
+只安装到 Codex：
 
 ```bash
 npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap -a codex
 ```
 
-For all detected agents:
+安装到所有检测到的 agent：
 
 ```bash
 npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap
 ```
 
-## Update
+## 更新
 
-Reliable refresh command for Codex installs:
+推荐刷新 Codex 安装：
 
 ```bash
 npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap -a codex -y --copy
 ```
 
-Reliable refresh command for all detected agents:
+刷新所有检测到的 agent：
 
 ```bash
 npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap --all --copy
 ```
 
-If the skill was installed with normal `skills` tracking and your project has a clean `skills-lock.json`, the shorter update command may also work:
+如果当前项目的 `skills-lock.json` 状态正常，也可以尝试：
 
 ```bash
 npx skills update markmap-analogy-mindmap
 ```
 
-Project-only and global-only update shortcuts:
+项目级和全局级快捷命令：
 
 ```bash
 npx skills update markmap-analogy-mindmap --project -y
 npx skills update markmap-analogy-mindmap --global -y
 ```
 
-If `skills update` fails with `Failed to check for deleted skills` or `Failed to update`, use the reliable `skills add ... -y --copy` refresh command above.
+如果 `skills update` 出现 `Failed to check for deleted skills` 或 `Failed to update`，使用上面的 `skills add ... -y --copy` 刷新命令。
 
-## Use
+## 使用
 
-Example prompt:
+示例提示词：
 
 ```text
-Use $markmap-analogy-mindmap to analyze this repository from whole to parts and render a content-first Markmap HTML.
+使用 $markmap-analogy-mindmap 分析这个仓库，按先整体后局部生成内容优先的 Markmap HTML。
 ```
 
-The skill will:
+这个 skill 会：
 
-- inspect the source material before summarizing it
-- draft a Markmap-ready Markdown outline
-- lead each node with the real concept, subsystem, workflow, file path, API, claim, or responsibility from the source
-- avoid category-only headings
-- keep leaf-detail groups to at most 7 items, preferably 5-7 when there are many details
-- validate the Markdown structure
-- render HTML with `markmap`, `npx markmap-cli`, or a local Markmap checkout when available
+- 先检查源材料，再总结。
+- 起草 Markmap 可用的 Markdown。
+- 让每个节点优先使用材料里的真实概念、系统、流程、文件路径、API、主张或职责。
+- 避免空泛分类标题。
+- 将叶子明细组控制在最多 7 项；细节很多时优先保留 5-7 项。
+- 校验 Markdown 结构。
+- 在可用时用 `markmap`、`npx markmap-cli` 或本机 Markmap checkout 渲染 HTML。
 
-## Repository Layout
+## 目录结构
 
 ```text
 .
@@ -80,38 +80,38 @@ The skill will:
     └── hindsight-analogy-markmap.html
 ```
 
-## Validate
+## 校验
 
-Validate the skill metadata:
+校验 skill 元数据：
 
 ```bash
 python3 /root/.codex/skills/.system/skill-creator/scripts/quick_validate.py .
 ```
 
-Validate a generated mind map:
+校验生成的思维导图：
 
 ```bash
 python3 scripts/validate_and_render.py examples/hindsight-analogy-markmap.md --validate-only
 ```
 
-Render a Markmap HTML file:
+渲染 Markmap HTML：
 
 ```bash
 python3 scripts/validate_and_render.py examples/hindsight-analogy-markmap.md -o examples/hindsight-analogy-markmap.html
 ```
 
-## Example Output
+## 示例
 
-The included example maps the Hindsight memory-agent repository from overall purpose into concrete workflows and packages:
+仓库内置示例把 Hindsight 记忆系统从整体目标展开到具体工作流和包结构：
 
-- Hindsight as a long-term memory system
-- Retain, Recall, and Reflect workflows
-- service/runtime/storage layers
-- monorepo packages
-- implications for long-form novel memory agents
+- Hindsight 作为长期记忆系统
+- Retain、Recall、Reflect 工作流
+- 服务运行与存储层
+- monorepo 包结构
+- 对长篇小说记忆 agent 的启发
 
-See [`examples/hindsight-analogy-markmap.md`](examples/hindsight-analogy-markmap.md) and [`examples/hindsight-analogy-markmap.html`](examples/hindsight-analogy-markmap.html).
+见 [`examples/hindsight-analogy-markmap.md`](examples/hindsight-analogy-markmap.md) 和 [`examples/hindsight-analogy-markmap.html`](examples/hindsight-analogy-markmap.html)。
 
 ## Topics
 
-`codex-skill`, `agent-skills`, `skills-sh`, `markmap`, `mindmap`, `markdown`, `visual-learning`, `knowledge-map`, `repo-analysis`, `learning-tools`
+`codex-skill`, `agent-skills`, `skills-sh`, `markmap`, `mindmap`, `markdown`, `content-first`, `knowledge-map`, `repo-analysis`, `learning-tools`
