@@ -8,6 +8,8 @@ The skill enforces a strict learning structure: every expanded level has 5-7 bra
 
 ## Install
 
+Install this skill for Codex:
+
 ```bash
 npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap -a codex
 ```
@@ -16,6 +18,26 @@ For all detected agents:
 
 ```bash
 npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap
+```
+
+## Update
+
+Update this skill to the latest version:
+
+```bash
+npx skills update markmap-analogy-mindmap
+```
+
+Update only project-level installs:
+
+```bash
+npx skills update markmap-analogy-mindmap --project -y
+```
+
+Update only global installs:
+
+```bash
+npx skills update markmap-analogy-mindmap --global -y
 ```
 
 ## Use
