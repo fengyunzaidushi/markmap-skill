@@ -22,23 +22,32 @@ npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap
 
 ## Update
 
-Update this skill to the latest version:
+Reliable refresh command for Codex installs:
+
+```bash
+npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap -a codex -y --copy
+```
+
+Reliable refresh command for all detected agents:
+
+```bash
+npx skills add fengyunzaidushi/markmap-skill --skill markmap-analogy-mindmap --all --copy
+```
+
+If the skill was installed with normal `skills` tracking and your project has a clean `skills-lock.json`, the shorter update command may also work:
 
 ```bash
 npx skills update markmap-analogy-mindmap
 ```
 
-Update only project-level installs:
+Project-only and global-only update shortcuts:
 
 ```bash
 npx skills update markmap-analogy-mindmap --project -y
-```
-
-Update only global installs:
-
-```bash
 npx skills update markmap-analogy-mindmap --global -y
 ```
+
+If `skills update` fails with `Failed to check for deleted skills` or `Failed to update`, use the reliable `skills add ... -y --copy` refresh command above.
 
 ## Use
 
