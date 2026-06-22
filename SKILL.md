@@ -5,16 +5,18 @@ description: Generate memory-friendly Markmap mind maps from projects, documents
 
 # Markmap Analogy Mindmap
 
-Create a Markmap-ready Markdown outline, validate its shape, and render it to HTML when requested or useful.
+Create a content-first Markmap-ready Markdown outline, validate its shape, and render it to HTML when requested or useful.
 
 ## Core Rules
 
 - Build every expanded non-leaf node with 5-7 child branches.
-- Give every branch a concrete object analogy using `类比：<具体事物>` or `Analogy: <concrete object>`.
+- Make the real source content the node title. The analogy is a small memory hook, never the main point.
+- Give every branch a concrete object analogy after the content label using `（类比：<具体事物>）` or `(Analogy: <concrete object>)`.
+- Do not use broad reader-friendly category labels as the main node text. Replace labels like "项目定位", "运行机制", "开发版图", or "核心概念" with the actual topic: e.g. `Hindsight 作为长期记忆系统`, `Retain 写入链路`, `Recall 多策略检索`, `hindsight-api-slim 服务入口`.
 - Prefer familiar, physical objects that are easy to visualize: body parts, rooms, tools, vehicles, city facilities, factory stations, kitchen items, office objects, or map landmarks.
 - Keep analogies local to the parent level. If one parent uses a "body" frame, its 5-7 children can be head, hands, torso, legs, feet, and senses; another parent can use a different frame such as a workshop or city.
 - Do not fake certainty about a project. Inspect README, docs, package files, tests, source directories, and local scripts before summarizing a repository.
-- Keep generated Markdown concise enough for a mind map. Use short branch labels and push detail into one sentence after the analogy.
+- Keep generated Markdown concise enough for a mind map. Use short content labels and push detail into one evidence-grounded sentence after the analogy.
 
 Read `references/analogy-structure.md` when designing a non-trivial map or when the source material is a repo/codebase.
 
@@ -26,8 +28,11 @@ Read `references/analogy-structure.md` when designing a non-trivial map or when 
 2. Draft a Markdown tree.
    - Use one H1 root.
    - Use `##` for the first map layer and deeper headings or nested lists for lower layers.
+   - Start each branch with the actual concept, subsystem, claim, workflow, file path, API, or responsibility from the source.
+   - Put learner-friendly category wording and concrete analogies after the content label.
    - Make every expanded node have 5-7 children. Collapse details into sentence text rather than adding arbitrary extra child nodes.
    - Add `类比：...` or `Analogy: ...` on every branch line.
+   - Avoid category-only branches. A non-technical reader can use the analogy to orient, but the Markmap's core must remain the source content itself.
 3. Validate the Markdown with the bundled script:
 
 ```bash

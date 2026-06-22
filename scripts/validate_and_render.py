@@ -16,6 +16,14 @@ from pathlib import Path
 ANALOGY_RE = re.compile(r"(类比|Analogy)\s*[:：]\s*\S+", re.IGNORECASE)
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 LIST_RE = re.compile(r"^(\s*)[-*+]\s+(.+?)\s*$")
+GENERIC_LABEL_RE = re.compile(
+    r"^(项目定位|核心概念|运行机制|运行与存储|开发版图|技术架构|主要模块|关键流程|使用场景|"
+    r"架构总览|系统概览|内容结构|主题类别|概念分类|Overview|Core Concepts|Architecture|"
+    r"Runtime|Workflow|Use Cases|Main Modules|Key Flow|Category|Categories)$",
+    re.IGNORECASE,
+)
+ASCII_RE = re.compile(r"[A-Za-z0-9]")
+CJK_RE = re.compile(r"[\u4e00-\u9fff]")
 
 
 @dataclass
@@ -30,6 +38,20 @@ class Node:
     def label(self) -> str:
         compact = re.sub(r"\s+", " ", self.text).strip()
         return compact[:90] + ("..." if len(compact) > 90 else "")
+
+    @property
+    def content_label(self) -> str:
+        before_analogy = ANALOGY_RE.split(self.text, maxsplit=1)[0]
+        before_detail = re.split(r"[:：。.!?]", before_analogy, maxsplit=1)[0]
+        cleaned = re.sub(r"[`*_#\[\]（）()]+", "", before_detail)
+        return re.sub(r"\s+", " ", cleaned).strip()
+
+    @property
+    def has_substantive_content_label(self) -> bool:
+        label = self.content_label
+        ascii_count = len(ASCII_RE.findall(label))
+        cjk_count = len(CJK_RE.findall(label))
+        return ascii_count >= 2 or cjk_count >= 2 or len(label) >= 4
 
 
 def parse_markdown(path: Path) -> Node:
@@ -78,6 +100,14 @@ def validate(root: Node) -> list[str]:
             continue
         if node.level != 1 and not ANALOGY_RE.search(node.text):
             errors.append(f"line {node.line}: missing concrete analogy marker in '{node.label}'")
+        if node.level != 1:
+            content_label = node.content_label
+            if not node.has_substantive_content_label:
+                errors.append(f"line {node.line}: missing substantive content before analogy in '{node.label}'")
+            if GENERIC_LABEL_RE.fullmatch(content_label):
+                errors.append(
+                    f"line {node.line}: generic category label before analogy; lead with source content in '{node.label}'"
+                )
         if node.children and not 5 <= len(node.children) <= 7:
             errors.append(
                 f"line {node.line}: expanded node has {len(node.children)} children, expected 5-7 in '{node.label}'"
@@ -139,7 +169,8 @@ def main() -> int:
         print(f"Input not found: {args.input}", file=sys.stderr)
         return 2
 
-    root = parse_markdown(args.input)
+    input_path = args.input.resolve()
+    root = parse_markdown(input_path)
     errors = validate(root)
     if errors:
         print("Validation failed:", file=sys.stderr)
@@ -151,8 +182,8 @@ def main() -> int:
     if args.validate_only:
         return 0
 
-    output = args.output or args.input.with_suffix(".html")
-    ok, message = render_markmap(args.input, output)
+    output = (args.output or args.input.with_suffix(".html")).resolve()
+    ok, message = render_markmap(input_path, output)
     print(message)
     if not ok:
         return 3

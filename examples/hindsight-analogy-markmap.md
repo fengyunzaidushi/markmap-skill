@@ -1,6 +1,6 @@
 # Hindsight 项目记忆地图
 
-## 项目定位（类比：大脑）
+## Hindsight 长期记忆系统（类比：大脑）
 - 长期记忆系统（类比：海马体）：Hindsight 让 agent 学会保留事实、经历和长期形成的理解，而不是只保存聊天记录。
 - 三类记忆（类比：三层书架）：world facts、experience facts、mental models 分别承载通用事实、个人经历和归纳后的模型。
 - Memory bank（类比：抽屉柜）：bank_id 把不同用户、agent、项目或场景的记忆空间隔离开。
@@ -28,19 +28,19 @@
 - 原文展开（类比：放大镜）：expand 或 include chunks 用来找回生成事实时的原文细节。
 - 有据回答（类比：庭审证物）：reflect 输出可携带 based_on、source facts、tool trace 和 LLM trace。
 
-## 运行与存储（类比：发电厂）
+## Hindsight 服务运行与存储层（类比：发电厂）
 - FastAPI 服务（类比：总闸）：`hindsight-api-slim` 提供 HTTP API、健康检查和应用生命周期。
 - MCP 服务（类比：工具插座）：本地 stdio MCP 和 HTTP `/mcp` 让编码 agent 直接调用记忆工具。
 - PostgreSQL 存储（类比：仓库）：默认使用 PostgreSQL、pgvector 和 Alembic 迁移管理 banks、memory_units、documents、entities。
 - pg0 嵌入式模式（类比：便携电池）：开发或单机运行时可使用嵌入式 PostgreSQL，降低部署门槛。
 - Worker 任务（类比：传送带）：后台 poller 领取 async_operations，执行异步 retain、consolidation 和 graph maintenance。
 
-## 开发版图（类比：城市街区）
+## Hindsight monorepo 开发版图（类比：城市街区）
 - API 核心区（类比：市政厅）：`hindsight-api-slim/hindsight_api` 放置 MemoryEngine、HTTP、MCP、worker 和 engine 模块。
 - 控制台区（类比：驾驶舱）：`hindsight-control-plane` 是 Next.js 管理 UI，用来观察和操作系统。
-- 文档区（类比：图书馆）：`hindsight-docs` 用 Docusaurus 承载开发者文档、SDK 文档和指南。
+- `hindsight-docs` 文档站（类比：图书馆）：用 Docusaurus 承载开发者文档、SDK 文档和指南。
 - 客户端区（类比：公交站）：`hindsight-clients` 和 `hindsight-cli` 提供 Python、TypeScript、Rust、Go 与命令行入口。
-- 集成区（类比：港口）：`hindsight-integrations` 对接 LangGraph、CrewAI、Pydantic AI、LiteLLM、Claude Code、Codex 等生态。
+- `hindsight-integrations` 集成包（类比：港口）：对接 LangGraph、CrewAI、Pydantic AI、LiteLLM、Claude Code、Codex 等生态。
 
 ## 对长篇小说记忆 Agent 的启发（类比：作家工作室）
 - 章节入库（类比：稿纸盒）：把每章正文作为 document/chunk 写入，保留可展开原文。
