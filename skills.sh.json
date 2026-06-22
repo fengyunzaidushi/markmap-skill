@@ -1,0 +1,9 @@
+{
+  "groups": [
+    {
+      "path": "SKILL.md",
+      "title": "Markmap Analogy Mindmap",
+      "description": "Generate strict 5-7 branch Markmap mind maps with concrete analogies for memory-friendly learning, repo analysis, and document summaries."
+    }
+  ]
+}
