@@ -106,9 +106,9 @@ def validate(root: Node) -> list[str]:
                 errors.append(
                     f"line {node.line}: 节点是空泛分类词，请改为材料中的真实内容：'{node.label}'"
                 )
-        if node.children and len(node.children) > 7 and all(not child.children for child in node.children):
+        if node.children and len(node.children) > 7:
             errors.append(
-                f"line {node.line}: 叶子明细组有 {len(node.children)} 项，最多允许 7 项：'{node.label}'"
+                f"line {node.line}: 该层级有 {len(node.children)} 个直接子节点，最多允许 7 个：'{node.label}'"
             )
 
     return errors
