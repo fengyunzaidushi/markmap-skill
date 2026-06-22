@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analogy Markmap"
+  short_description: "Create strict 5-7 branch analogy mind maps"
+  default_prompt: "Use $markmap-analogy-mindmap to turn this topic into a 5-7 branch analogy mind map and render it as Markmap HTML."
