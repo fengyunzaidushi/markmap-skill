@@ -2,8 +2,8 @@
   "groups": [
     {
       "path": "SKILL.md",
-      "title": "Markmap Analogy Mindmap",
-      "description": "Generate strict 5-7 branch Markmap mind maps with concrete analogies for memory-friendly learning, repo analysis, and document summaries."
+      "title": "Content-First Markmap",
+      "description": "Generate whole-to-part Markmap mind maps that keep source content as the structure and limit leaf-detail groups for readability."
     }
   ]
 }

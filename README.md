@@ -1,10 +1,10 @@
-# Markmap Analogy Mindmap Skill
+# Content-First Markmap Skill
 
 [![skills.sh](https://skills.sh/b/fengyunzaidushi/markmap-skill)](https://skills.sh/fengyunzaidushi/markmap-skill)
 
 A Codex-compatible agent skill for turning projects, documents, codebases, and concepts into content-first Markmap mind maps.
 
-The skill enforces a strict learning structure: every expanded level has 5-7 branches, and every branch starts with the actual source content before adding a concrete object analogy. The analogy and simple-reader category hints are only navigation aids; the Markmap's core remains the content itself.
+The skill keeps the source material as the map structure. It works from whole to parts, avoids broad category headings, and keeps leaf-detail groups to at most 7 items so the result stays readable.
 
 ## Install
 
@@ -54,7 +54,7 @@ If `skills update` fails with `Failed to check for deleted skills` or `Failed to
 Example prompt:
 
 ```text
-Use $markmap-analogy-mindmap to analyze this repository and create a 5-7 branch analogy mind map, then render it as Markmap HTML.
+Use $markmap-analogy-mindmap to analyze this repository from whole to parts and render a content-first Markmap HTML.
 ```
 
 The skill will:
@@ -62,8 +62,8 @@ The skill will:
 - inspect the source material before summarizing it
 - draft a Markmap-ready Markdown outline
 - lead each node with the real concept, subsystem, workflow, file path, API, claim, or responsibility from the source
-- require 5-7 child branches for every expanded non-leaf node
-- require each branch to include a concrete analogy after the content label
+- avoid category-only headings
+- keep leaf-detail groups to at most 7 items, preferably 5-7 when there are many details
 - validate the Markdown structure
 - render HTML with `markmap`, `npx markmap-cli`, or a local Markmap checkout when available
 
@@ -102,14 +102,13 @@ python3 scripts/validate_and_render.py examples/hindsight-analogy-markmap.md -o 
 
 ## Example Output
 
-The included example maps the Hindsight memory-agent repository into six memorable areas:
+The included example maps the Hindsight memory-agent repository from overall purpose into concrete workflows and packages:
 
-- project positioning as a brain
-- retain as an intake gate
-- recall as a library index
-- reflect as a mirror
-- runtime and storage as a power plant
-- developer layout as city blocks
+- Hindsight as a long-term memory system
+- Retain, Recall, and Reflect workflows
+- service/runtime/storage layers
+- monorepo packages
+- implications for long-form novel memory agents
 
 See [`examples/hindsight-analogy-markmap.md`](examples/hindsight-analogy-markmap.md) and [`examples/hindsight-analogy-markmap.html`](examples/hindsight-analogy-markmap.html).
 

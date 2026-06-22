@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate strict analogy Markmap Markdown and optionally render HTML."""
+"""Validate content-first Markmap Markdown and optionally render HTML."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 
-ANALOGY_RE = re.compile(r"(类比|Analogy)\s*[:：]\s*\S+", re.IGNORECASE)
+MEMORY_HOOK_RE = re.compile(r"(类比|Analogy)\s*[:：]\s*\S+", re.IGNORECASE)
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 LIST_RE = re.compile(r"^(\s*)[-*+]\s+(.+?)\s*$")
 GENERIC_LABEL_RE = re.compile(
@@ -41,8 +41,8 @@ class Node:
 
     @property
     def content_label(self) -> str:
-        before_analogy = ANALOGY_RE.split(self.text, maxsplit=1)[0]
-        before_detail = re.split(r"[:：。.!?]", before_analogy, maxsplit=1)[0]
+        before_memory_hook = MEMORY_HOOK_RE.split(self.text, maxsplit=1)[0]
+        before_detail = re.split(r"[:：。.!?]", before_memory_hook, maxsplit=1)[0]
         cleaned = re.sub(r"[`*_#\[\]（）()]+", "", before_detail)
         return re.sub(r"\s+", " ", cleaned).strip()
 
@@ -98,19 +98,17 @@ def validate(root: Node) -> list[str]:
     for node in walk(root):
         if node.kind == "root":
             continue
-        if node.level != 1 and not ANALOGY_RE.search(node.text):
-            errors.append(f"line {node.line}: missing concrete analogy marker in '{node.label}'")
         if node.level != 1:
             content_label = node.content_label
             if not node.has_substantive_content_label:
-                errors.append(f"line {node.line}: missing substantive content before analogy in '{node.label}'")
+                errors.append(f"line {node.line}: missing substantive content in '{node.label}'")
             if GENERIC_LABEL_RE.fullmatch(content_label):
                 errors.append(
-                    f"line {node.line}: generic category label before analogy; lead with source content in '{node.label}'"
+                    f"line {node.line}: generic category label; lead with source content in '{node.label}'"
                 )
-        if node.children and not 5 <= len(node.children) <= 7:
+        if node.children and len(node.children) > 7 and all(not child.children for child in node.children):
             errors.append(
-                f"line {node.line}: expanded node has {len(node.children)} children, expected 5-7 in '{node.label}'"
+                f"line {node.line}: leaf-detail group has {len(node.children)} children, expected at most 7 in '{node.label}'"
             )
 
     return errors
