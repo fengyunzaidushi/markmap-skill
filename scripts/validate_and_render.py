@@ -89,7 +89,7 @@ def walk(node: Node) -> list[Node]:
     return nodes
 
 
-def validate(root: Node) -> list[str]:
+def validate(root: Node, max_children: int = 5) -> list[str]:
     errors: list[str] = []
     visible_roots = root.children
     if len(visible_roots) != 1:
@@ -106,9 +106,9 @@ def validate(root: Node) -> list[str]:
                 errors.append(
                     f"line {node.line}: 节点是空泛分类词，请改为材料中的真实内容：'{node.label}'"
                 )
-        if node.children and len(node.children) > 7:
+        if node.children and len(node.children) > max_children:
             errors.append(
-                f"line {node.line}: 该层级有 {len(node.children)} 个直接子节点，最多允许 7 个：'{node.label}'"
+                f"line {node.line}: 该层级有 {len(node.children)} 个直接子节点，最多允许 {max_children} 个：'{node.label}'"
             )
 
     return errors
@@ -161,15 +161,24 @@ def main() -> int:
     parser.add_argument("input", type=Path, help="要校验的 Markdown 思维导图")
     parser.add_argument("-o", "--output", type=Path, help="HTML 输出路径")
     parser.add_argument("--validate-only", action="store_true", help="只校验结构，不渲染 HTML")
+    parser.add_argument(
+        "--max-children",
+        type=int,
+        default=5,
+        help="每个父节点允许的直接子节点上限，默认 5；只有用户明确允许更多分支时才提高",
+    )
     args = parser.parse_args()
 
     if not args.input.exists():
         print(f"找不到输入文件：{args.input}", file=sys.stderr)
         return 2
+    if args.max_children < 1:
+        print(f"--max-children 必须大于等于 1，当前是 {args.max_children}", file=sys.stderr)
+        return 2
 
     input_path = args.input.resolve()
     root = parse_markdown(input_path)
-    errors = validate(root)
+    errors = validate(root, max_children=args.max_children)
     if errors:
         print("校验失败：", file=sys.stderr)
         for error in errors:

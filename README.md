@@ -4,7 +4,7 @@
 
 这是一个 Codex 可用的 agent skill，用来把项目、文档、代码库或概念整理成内容优先的 Markmap 思维导图。
 
-它的重点不是用类别凑结构，而是让材料本身成为导图结构：先整体后局部，避免空泛分类标题，并把每个父节点的直接子节点控制在最多 7 个，优先 5 个左右，保证阅读时不散。
+它的重点不是用类别凑结构，而是让材料本身成为导图结构：先整体后局部，避免空泛分类标题，并把每个父节点的直接子节点默认控制在最多 5 个。只有用户明确允许更多分支时，才放宽这个上限。
 
 ## 安装
 
@@ -63,7 +63,7 @@ npx skills update markmap-analogy-mindmap --global -y
 - 起草 Markmap 可用的 Markdown。
 - 让每个节点优先使用材料里的真实概念、系统、流程、文件路径、API、主张或职责。
 - 避免空泛分类标题。
-- 将每个父节点的直接子节点控制在最多 7 个；优先 5 个左右，内容确实需要时才扩展到 6-7 个。
+- 将每个父节点的直接子节点默认控制在最多 5 个；只有用户明确允许更多分支时，才提高上限。
 - 校验 Markdown 结构。
 - 在可用时用 `markmap`、`npx markmap-cli` 或本机 Markmap checkout 渲染 HTML。
 
@@ -92,6 +92,12 @@ python3 /root/.codex/skills/.system/skill-creator/scripts/quick_validate.py .
 
 ```bash
 python3 scripts/validate_and_render.py examples/hindsight-analogy-markmap.md --validate-only
+```
+
+如果用户明确允许更多分支，可以在校验时指定上限：
+
+```bash
+python3 scripts/validate_and_render.py input.md --max-children 7 --validate-only
 ```
 
 渲染 Markmap HTML：

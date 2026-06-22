@@ -1,4 +1,4 @@
 interface:
   display_name: "内容 Markmap"
-  short_description: "生成内容优先的 Markmap 思维导图"
+  short_description: "生成内容优先、每层默认最多 5 枝的 Markmap"
   default_prompt: "使用 $markmap-analogy-mindmap 将这个主题整理成先整体后局部的内容优先 Markmap，并渲染为 HTML。"

@@ -3,7 +3,7 @@
     {
       "path": "SKILL.md",
       "title": "内容优先 Markmap",
-      "description": "生成先整体后局部的 Markmap 思维导图，让源材料本身成为结构，并把每层直接子节点限制在最多 7 个。"
+      "description": "生成先整体后局部的 Markmap 思维导图，让源材料本身成为结构，并默认把每层直接子节点限制在最多 5 个。"
     }
   ]
 }
